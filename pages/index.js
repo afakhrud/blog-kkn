@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import EditorTiny from '../components/EditorTiny'
 import styles from '../styles/Home.module.css'
+import prisma from '../lib/prisma'
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       </Head>
       <h2>HTML Editor</h2>
       <EditorTiny />
+      <p></p>
     </div>
   )
 }
