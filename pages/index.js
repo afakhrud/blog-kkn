@@ -3,8 +3,17 @@ import Image from 'next/image'
 import EditorTiny from '../components/EditorTiny'
 import styles from '../styles/Home.module.css'
 import prisma from '../lib/prisma'
+import { useState } from 'react'
 
-export default function Home() {
+
+
+// console.log(prisma);
+export default function Home({data}) {
+  const [title,  setTitle] = useState('');
+  const createPost = () => {
+
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,8 +22,26 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h2>HTML Editor</h2>
-      <EditorTiny />
-      <p></p>
+      <EditorTiny /> 
+      {data.length ? data.map((item, index) => {
+        return (
+          <li key={index}>{item.name}</li>
+        )
+      }) : null}
+      <input type='text' value={title} onChange={(e) => setTitle(e.target.value)}></input>
+      <button type='submit'>Submit</button>
     </div>
   )
+}
+
+export async function getServerSideProps() {
+  const users = await prisma.user.findMany();
+  // const user = await JSON.parse(res);
+  const user = JSON.stringify(users)
+  console.log(user);
+  return {
+    props: {
+      data: JSON.parse(user)
+    }
+  };
 }
